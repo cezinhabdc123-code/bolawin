@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Diretoria - BolaWin</title>
+  <link rel="stylesheet" href="admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="brand" style="cursor: pointer; transition: opacity 0.2s;" onclick="window.location.href='/'" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+      🚀 BolaWin <span>Admin</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#dashboard" class="active" onclick="showTab(event, 'dashboard')">Visão Geral</a>
+      <a href="#users" onclick="showTab(event, 'users')">Usuários & Depósitos</a>
+      <a href="#saques" onclick="showTab(event, 'saques')">Filas de Saque</a>
+      <hr>
+      <a href="/" style="color: #FF4D6D;">Sair do Admin</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <h1>Painel de Controle</h1>
+      <div class="admin-badge">Admin Logado</div>
+    </header>
+
+    <div id="tab-dashboard" class="tab-content active">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total de Usuários</h3>
+          <h2 id="total-users">0</h2>
+        </div>
+        <div class="stat-card">
+          <h3>Saques Pendentes</h3>
+          <h2 id="total-pendentes" class="text-orange">0</h2>
+        </div>
+        <div class="stat-card">
+          <h3>Liquidez Simulada</h3>
+          <h2 id="total-saldo-users" class="text-green">R$ 0,00</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usuários -->
+    <div id="tab-users" class="tab-content">
+      <h2>Gerenciamento de Jogadores</h2>
+      <button class="btn btn-green" id="btn-injetar-geral">+ Injetar Saldo Manual</button>
+      
+      <div class="table-container mt-2">
+        <table id="table-users">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Saldo Atual</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- renderizado no JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Saques -->
+    <div id="tab-saques" class="tab-content">
+      <h2>Aprovações de Saque</h2>
+      <div class="table-container mt-2">
+        <table id="table-saques">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Usuário</th>
+              <th>Telefone</th>
+              <th>Chave PIX</th>
+              <th>Valor (R$)</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- renderizado no JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════ MODAL INJETAR SALDO ══════════ -->
+  <div id="modal-injetar" class="adm-modal-overlay" style="display:none;">
+    <div class="adm-modal-box">
+      <div class="adm-modal-header">
+        <h3>💰 Injetar Saldo</h3>
+        <button class="adm-modal-close" id="close-modal-injetar">&times;</button>
+      </div>
+      <div class="adm-modal-body">
+        <label>Telefone do Usuário</label>
+        <input type="text" id="inj-telefone" placeholder="Ex: cesar123 ou 11999999999" autocomplete="off">
+        <label>Valor (R$)</label>
+        <input type="number" id="inj-valor" placeholder="Ex: 50.00" step="0.01" min="0.01">
+        <div id="inj-status" class="adm-modal-status"></div>
+      </div>
+      <div class="adm-modal-footer">
+        <button class="btn btn-green" id="inj-confirmar">✅ Confirmar Injeção</button>
+        <button class="btn btn-red" id="inj-cancelar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ MODAL CONFIRMAR SAQUE ══════════ -->
+  <div id="modal-avaliar" class="adm-modal-overlay" style="display:none;">
+    <div class="adm-modal-box">
+      <div class="adm-modal-header">
+        <h3 id="avaliar-titulo">⚡ Avaliar Saque</h3>
+        <button class="adm-modal-close" id="close-modal-avaliar">&times;</button>
+      </div>
+      <div class="adm-modal-body">
+        <p id="avaliar-msg">Tem certeza que deseja processar este saque?</p>
+        <div id="avaliar-status" class="adm-modal-status"></div>
+      </div>
+      <div class="adm-modal-footer">
+        <button class="btn btn-green" id="avaliar-confirmar">Confirmar</button>
+        <button class="btn btn-red" id="avaliar-cancelar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="adm-toast-container" class="adm-toast-container"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
